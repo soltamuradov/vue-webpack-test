@@ -1,5 +1,6 @@
 <template>
 <div class="app">
+  <h1 class="title">Поиск программистов в GitHub</h1>
   <form @submit.prevent>
       <input class="input"
              type="text"
@@ -8,26 +9,29 @@
       <button class="btn" @click="clickSearchUser">Найти</button>
   </form>
 
-  <div class="content__users" >
-    <div class="block__users" v-for="user in users">
-      <div>
-        <img class="img__user" :src="user.avatar_url">
-      </div>
-      <h4 class="login__user">{{user.login}}</h4>
-    </div>
+  <sort-users v-model="selectedSort" :options="sortOptions"/>
 
+  <div class="content__users" >
+    <users-list :users="users"/>
   </div>
 </div>
 </template>
 
 <script>
+import UsersList from "./components/UsersList";
 import axios from "axios"
+import SortUsers from "./components/SortUsers";
 export default {
   name: "App.vue",
+  components: {SortUsers, UsersList},
   data() {
     return {
       users: [],
-      login: ""
+      login: "",
+      selectedSort: "",
+      sortOptions: [
+        {value: "login", name: "По названию"},
+      ]
     }
   },
   methods: {
@@ -35,17 +39,24 @@ export default {
       try {
         const res = await axios.get(`https://api.github.com/search/users?q=${this.login}`)
         this.users = res.data.items
-        console.log(res)
       }catch (e) {
         console.log("Ошибка получения данных")
       }
     },
     clickSearchUser() {
       this.fetchUsers()
-      // this.login = ""
+      this.login = ""
     }
   },
   mounted() {
+    // this.fetchUsers()
+  },
+  watch: {
+    selectedSort(newValue) {
+      this.users.sort((user1, user2) => {
+        return user1[newValue]?.localeCompare(user2[newValue])
+      })
+    }
   }
 }
 </script>
@@ -58,7 +69,9 @@ body{
   width: 900px;
   margin: auto;
 }
-
+.title {
+  text-align: center;
+}
 .input {
   border: 2px solid teal;
   width: 100%;
@@ -85,14 +98,5 @@ form {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.block__users {
-  width: 250px;
-}
-.img__user{
-  width: 100%;
-  border-radius: 10px;
-}
-.login__user {
-  text-align: center;
-}
+
 </style>
