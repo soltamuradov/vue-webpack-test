@@ -15,19 +15,21 @@
     <users-list :users="users"/>
   </div>
 
-  <div class="pages__navigation">
-    <div
-        v-for="pageNumber in totalPages"
-        :key="pageNumber"
-        class="page"
-        :class="{
-          'current-page': pageL === pageNumber
-        }"
-        @click="changePage(pageNumber)"
-    >
-      {{pageNumber}}
-    </div>
-  </div>
+  <div ref="observer" class="observer"></div>
+
+<!--  <div class="pages__navigation">-->
+<!--    <div-->
+<!--        v-for="pageNumber in totalPages"-->
+<!--        :key="pageNumber"-->
+<!--        class="page"-->
+<!--        :class="{-->
+<!--          'current-page': pageL === pageNumber-->
+<!--        }"-->
+<!--        @click="changePage(pageNumber)"-->
+<!--    >-->
+<!--      {{pageNumber}}-->
+<!--    </div>-->
+<!--  </div>-->
 </div>
 </template>
 
@@ -52,10 +54,10 @@ export default {
     }
   },
   methods: {
-    changePage(pageNumber) {
-      this.pageL = pageNumber
-      console.log(this.pageL)
-    },
+    // changePage(pageNumber) {
+    //   this.pageL = pageNumber
+    //   this.fetchUsers()
+    //},
     async fetchUsers() {
       try {
         const res = await axios.get(`https://api.github.com/search/users?q=deni`, {
@@ -72,6 +74,23 @@ export default {
         console.log("Ошибка получения данных")
       }
     },
+    async loadMoreUsers() {
+      try {
+        this.pageL += 1
+        const res = await axios.get(`https://api.github.com/search/users?q=deni`, {
+          params: {
+            page: this.pageL,
+            per_page: this.limit
+          }
+        })
+
+        this.totalPages = Math.ceil(res.data.total_count / this.limit)
+        this.users = [...this.users, ...res.data.items]
+        console.log(res)
+      }catch (e) {
+        console.log("Ошибка получения данных")
+      }
+    },
     clickSearchUser() {
       // this.fetchUsers()
       this.login = ""
@@ -79,11 +98,23 @@ export default {
   },
   mounted() {
     this.fetchUsers()
+    console.log(this.$refs.observer)
+    const options = {
+      rootMargin: '0px',
+      threshold: 1.0
+    }
+    const callback = (entries, observer) => {
+      if(entries[0].isIntersecting) {
+        this.loadMoreUsers()
+      }
+    };
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(this.$refs.observer)
   },
   watch: {
-    pageL() {
-      this.fetchUsers()
-    },
+    // pageL() {
+    //   this.fetchUsers()
+    // },
     selectedSort(newValue) {
       this.users.sort((user1, user2) => {
         return user1[newValue]?.localeCompare(user2[newValue])
@@ -141,6 +172,9 @@ form {
 }
 .current-page {
   border: 2px solid teal;
+}
+.observer {
+  height: 30px;
 }
 
 </style>
