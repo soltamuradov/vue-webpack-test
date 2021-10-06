@@ -9,10 +9,24 @@
       <button class="btn" @click="clickSearchUser">Найти</button>
   </form>
 
-  <sort-users v-model="selectedSort" :options="sortOptions"/>
+<!--  <sort-users v-model="selectedSort" :options="sortOptions"/>-->
 
   <div class="content__users" >
     <users-list :users="users"/>
+  </div>
+
+  <div class="pages__navigation">
+    <div
+        v-for="pageNumber in totalPages"
+        :key="pageNumber"
+        class="page"
+        :class="{
+          'current-page': pageL === pageNumber
+        }"
+        @click="changePage(pageNumber)"
+    >
+      {{pageNumber}}
+    </div>
   </div>
 </div>
 </template>
@@ -29,34 +43,52 @@ export default {
       users: [],
       login: "",
       selectedSort: "",
+      pageL: 1,
+      limit: 9,
+      totalPages: 0,
       sortOptions: [
         {value: "login", name: "По названию"},
       ]
     }
   },
   methods: {
+    changePage(pageNumber) {
+      this.pageL = pageNumber
+      console.log(this.pageL)
+    },
     async fetchUsers() {
       try {
-        const res = await axios.get(`https://api.github.com/search/users?q=${this.login}`)
+        const res = await axios.get(`https://api.github.com/search/users?q=deni`, {
+          params: {
+            page: this.pageL,
+            per_page: this.limit
+          }
+        })
+
+        this.totalPages = Math.ceil(res.data.total_count / this.limit)
         this.users = res.data.items
+        console.log(res)
       }catch (e) {
         console.log("Ошибка получения данных")
       }
     },
     clickSearchUser() {
-      this.fetchUsers()
+      // this.fetchUsers()
       this.login = ""
     }
   },
   mounted() {
-    // this.fetchUsers()
+    this.fetchUsers()
   },
   watch: {
+    pageL() {
+      this.fetchUsers()
+    },
     selectedSort(newValue) {
       this.users.sort((user1, user2) => {
         return user1[newValue]?.localeCompare(user2[newValue])
       })
-    }
+    },
   }
 }
 </script>
@@ -97,6 +129,18 @@ form {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+}
+
+.pages__navigation {
+  display: flex;
+  margin-top: 15px;
+}
+.page {
+  border: 1px solid teal;
+  padding: 10px;
+}
+.current-page {
+  border: 2px solid teal;
 }
 
 </style>
