@@ -1,5 +1,5 @@
 <template>
-    <div class="block__users" v-for="user in users">
+    <div class="block__users" v-for="user in users" :key="user.id">
       <div>
         <img class="img__user" :src="user.avatar_url">
       </div>

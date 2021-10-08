@@ -1,8 +1,8 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const {VueLoaderPlugin} = require("vue-loader");
+const { VueLoaderPlugin } = require("vue-loader");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const {CleanWebpackPlugin} = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
     mode: "development",
@@ -10,7 +10,8 @@ module.exports = {
     entry: "./main.js",
 
     output: {
-        //path: path.resolve(__dirname, "dist"),
+        publicPath: '/',
+        path: path.resolve(__dirname, 'dist'),
         filename: "[contenthash].bundle.js",
     },
 
@@ -41,7 +42,6 @@ module.exports = {
             }
         ]
     },
-
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "public", "index.html")
@@ -50,9 +50,10 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "[name].css"
         }),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
     ],
     devServer: {
-        port: 8080
+        port: 8080,
+        historyApiFallback: true
     }
 }
