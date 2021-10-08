@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import {mapMutations} from "vuex"
 export default {
   props: {
     modelValue: {
@@ -24,8 +25,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      setSelectedSort: "setSelectedSort"
+    }),
     changeOption(e) {
-      this.$emit('update:modelValue', e.target.value)
+      this.setSelectedSort(e.target.value)
     }
   }
 }

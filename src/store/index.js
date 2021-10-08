@@ -12,17 +12,17 @@ export default createStore({
             totalPages: 0,
             sortOptions: [
                 {value: "small", name: "По убыванию"},
-                {value: "small", name: "По убыванию"},
+                {value: "big", name: "По возрастанию"},
             ]
         }
     },
-    getters: {
-        selectedSort(state) {
-            state.users.sort((user1, user2) => {
-                return user1[state.selectedSort]?.localeCompare(user2[state.selectedSort])
-            })
-        }
-    },
+    // getters: {
+    //     selectedSort(state) {
+    //         state.users.sort((user1, user2) => {
+    //             return user1[state.selectedSort]?.localeCompare(user2[state.selectedSort])
+    //         })
+    //     }
+    // },
     mutations: {
         setUsers(state, users) {
             state.users = users
@@ -38,7 +38,7 @@ export default createStore({
         },
         setTotalPages(state, totalPages) {
             state.totalPages = totalPages
-        }
+        },
     },
     actions: {
         async fetchUsers({state, commit}) {
@@ -46,7 +46,9 @@ export default createStore({
                 const res = await axios.get(`https://api.github.com/search/users?q=${state.login}`, {
                     params: {
                         page: state.pageL,
-                        per_page: state.limit
+                        per_page: state.limit,
+                        sort: state.selectedSort ? "repositories" : null,
+                        order: state.selectedSort === "small" ? "desc" : "asc"
                     }
                 })
 
@@ -62,7 +64,9 @@ export default createStore({
                 const res = await axios.get(`https://api.github.com/search/users?q=${state.login}`, {
                     params: {
                         page: state.pageL,
-                        per_page: state.limit
+                        per_page: state.limit,
+                        sort: state.selectedSort ? "repositories" : null,
+                        order: state.selectedSort === "small" ? "desc" : "asc"
                     }
                 })
 
