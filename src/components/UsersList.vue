@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import {mapActions, mapMutations, mapState} from "vuex";
+import { mapMutations, mapState} from "vuex";
 
 export default {
   computed: {
@@ -25,12 +25,6 @@ export default {
       setUserLogin: 'setUserLogin'
     })
     },
-  ...mapActions({
-    getUserByLogin: "getUserByLogin"
-  }),
-  mounted() {
-    this.getUserByLogin()
-  }
 }
 </script>
 

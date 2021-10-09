@@ -8,7 +8,7 @@
 </tempale>
 
 <script>
-import {mapState, mapActions, mapMutations} from "vuex"
+import {mapState, mapActions} from "vuex"
 
 export default {
   props: {
@@ -20,20 +20,16 @@ export default {
   computed: {
     ...mapState({
       user: state => state.user,
-      userLogin: state => state.userLogin
     })
   },
   methods: {
-    // ...mapActions({
-    //   getUserByLogin: "getUserByLogin"
-    // }),
-    ...mapMutations({
-      setUserLogin: 'setUserLogin'
-    })
+    ...mapActions({
+      getUserByLogin: "getUserByLogin"
+    }),
   },
-  // mounted() {
-  //   this.getUserByLogin()
-  // }
+  mounted() {
+    this.getUserByLogin()
+  }
 }
 </script>
 

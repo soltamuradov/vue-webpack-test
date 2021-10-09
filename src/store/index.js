@@ -81,6 +81,7 @@ export default createStore({
             try {
                 const res = await axios.get(`https://api.github.com/users/${state.userLogin}`)
                 commit("setUser", res.data)
+                console.log(state.user)
             }catch (e) {
                 console.log("Ошибка:" + e.message)
             }
