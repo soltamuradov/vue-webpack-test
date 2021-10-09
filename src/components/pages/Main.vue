@@ -1,25 +1,25 @@
 <template>
-  <div>
-    <h1 class="title">Поиск программистов в GitHub</h1>
-    <div>
-        <my-input class="input"
-                  type="text"
-                  :model-value="login"
-                  @update:model-value="setLogin"
-        />
-      <div class="app__btns">
-        <sort-users
-            v-model="selectedSort"
-            :options="sortOptions"
-        />
-        <button
-            class="btn"
-            @click="clickSearchUser"
-        >
-          Найти
-        </button>
-      </div>
+  <h1 class="title">Поиск программистов в GitHub</h1>
+  <div class="input__block">
+    <my-input class="input"
+              type="text"
+              :model-value="login"
+              @update:model-value="setLogin"
+    />
+    <div class="app__btns">
+      <sort-users
+          v-model="selectedSort"
+          :options="sortOptions"
+      />
+      <button
+          class="btn"
+          @click="clickSearchUser"
+      >
+        Найти
+      </button>
     </div>
+  </div>
+  <div class="content">
     <div class="content__users" >
       <users-list :users="users"/>
     </div>
@@ -93,35 +93,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.title {
-  text-align: center;
-}
-.btn {
-  margin-top: 10px;
-  background: none;
-  border: 2px solid teal;
-  width: 70px;
-  height: 30px;
-  border-radius: 5px;
-}
-form {
-  display: flex;
-  flex-direction: column;
-}
-.content__users{
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.observer {
-  height: 30px;
-}
-.app__btns{
-  display: flex;
-  justify-content: space-between;
-}
-
-</style>

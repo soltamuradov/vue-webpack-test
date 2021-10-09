@@ -9,9 +9,4 @@
 </script>
 
 <style>
-
-.app {
-  width: 900px;
-  margin: auto;
-}
 </style>

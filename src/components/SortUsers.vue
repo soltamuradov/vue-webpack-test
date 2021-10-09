@@ -34,15 +34,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.sort{
-  margin-top: 10px;
-  background: none;
-  border: 2px solid teal;
-  width: 170px;
-  height: 30px;
-  border-radius: 5px;
-}
-
-</style>

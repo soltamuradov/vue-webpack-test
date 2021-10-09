@@ -48,32 +48,6 @@ export default {
   mounted() {
     this.getUserByLogin()
     this.fetchUserRepos()
-    console.log(this.repos)
   }
 }
 </script>
-
-<style scoped>
-.user__block{
-  margin-top: 20px;
-  display: flex;
-}
-.text {
-  margin: 10px 0 10px 10px;
-  padding: 0;
-}
-.img__block{
-  width: 200px;
-  margin-right: 20px;
-}
-.img{
-  width: 100%;
-  border-radius: 20px;
-}
-.repos__rep{
-  border: 1px solid teal;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-</style>
-forks_count: 0

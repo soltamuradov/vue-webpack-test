@@ -1,0 +1,93 @@
+body{
+    max-width: 900px;
+    margin: auto;
+    box-sizing: border-box;
+}
+.content{
+    max-width: 100%;
+}
+.title {
+    text-align: center;
+}
+.btn {
+    margin-top: 10px;
+    background: none;
+    border: 2px solid teal;
+    width: 70px;
+    height: 30px;
+    border-radius: 5px;
+}
+.content__users{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.observer {
+    height: 30px;
+}
+.app__btns{
+    display: flex;
+    justify-content: space-between;
+}
+.input__block{
+    margin-right: 5px;
+}
+.input {
+    width: 100%;
+}
+.user__block{
+    margin-top: 20px;
+    display: flex;
+}
+.text {
+    margin: 10px 0 10px 10px;
+    padding: 0;
+}
+.img__block{
+    width: 200px;
+    margin-right: 20px;
+}
+.img{
+    width: 100%;
+    border-radius: 20px;
+}
+.repos__rep{
+    border: 1px solid teal;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.block__users {
+    width: 250px;
+}
+.img__user{
+    width: 100%;
+    border-radius: 10px;
+}
+.login__user {
+    text-align: center;
+}
+.sort{
+    margin-top: 10px;
+    background: none;
+    border: 2px solid teal;
+    width: 170px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+@media all and (max-width: 780px) {
+    .content {
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+    .block__users{
+        margin: 5px;
+    }
+}
+
+@media all and (max-width: 535px) {
+    .content__users {
+        justify-content: center
+    }
+}

@@ -27,16 +27,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-.block__users {
-  width: 250px;
-}
-.img__user{
-  width: 100%;
-  border-radius: 10px;
-}
-.login__user {
-  text-align: center;
-}
-</style>
