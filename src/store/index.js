@@ -6,6 +6,7 @@ export default createStore({
         return {
             users: [],
             user: {},
+            repos: [],
             login: "",
             selectedSort: "",
             userLogin: "",
@@ -22,9 +23,6 @@ export default createStore({
         setUsers(state, users) {
             state.users = users
         },
-        setUser(state, user) {
-            state.user = user
-        },
         setPageL(state, pageL) {
             state.pageL = pageL
         },
@@ -39,6 +37,12 @@ export default createStore({
         },
         setUserLogin(state, login) {
             state.userLogin = login
+        },
+        setUser(state, user) {
+            state.user = user
+        },
+        setRepos(state, repos) {
+            state.repos = repos
         }
     },
     actions: {
@@ -55,7 +59,7 @@ export default createStore({
 
                 commit("setTotalPages", Math.ceil(res.data.total_count / state.limit))
                 commit("setUsers", res.data.items)
-            }catch (e) {
+            } catch (e) {
                 console.log(e.message)
             }
         },
@@ -70,10 +74,9 @@ export default createStore({
                         order: state.selectedSort === "small" ? "desc" : "asc"
                     }
                 })
-
                 commit("setTotalPages", Math.ceil(res.data.total_count / state.limit))
                 commit("setUsers", [...state.users, ...res.data.items])
-            }catch (e) {
+            } catch (e) {
                 console.log("Ошибка получения данных")
             }
         },
@@ -81,7 +84,14 @@ export default createStore({
             try {
                 const res = await axios.get(`https://api.github.com/users/${state.userLogin}`)
                 commit("setUser", res.data)
-                console.log(state.user)
+            } catch (e) {
+                console.log("Ошибка:" + e.message)
+            }
+        },
+        async fetchUserRepos({state, commit}) {
+            try {
+                const res = await axios.get(`https://api.github.com/users/${state.userLogin}/repos`)
+                commit("setRepos", res.data)
             }catch (e) {
                 console.log("Ошибка:" + e.message)
             }
