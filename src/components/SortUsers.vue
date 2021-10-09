@@ -1,7 +1,7 @@
 <template>
-  <select v-model="modelValue" @change="changeOption">
-    <option disabled>Выберите из списка</option>
-    <option
+  <select class="sort" v-model="modelValue" @change="changeOption">
+    <option class="sort" disabled value="">Выберите из списка</option>
+    <option class="sort"
         v-for="option in options"
         :key="option.value"
         :value="option.value"
@@ -36,5 +36,13 @@ export default {
 </script>
 
 <style scoped>
+.sort{
+  margin-top: 10px;
+  background: none;
+  border: 2px solid teal;
+  width: 170px;
+  height: 30px;
+  border-radius: 5px;
+}
 
 </style>

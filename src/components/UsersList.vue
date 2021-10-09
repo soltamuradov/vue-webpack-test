@@ -3,18 +3,33 @@
       <div>
         <img class="img__user" :src="user.avatar_url">
       </div>
-      <h4 class="login__user">{{user.login}}</h4>
+      <router-link :to="`/user/${user.login}`">
+      <h4 @click="$router.push(`/user/${user.login}`); setUserLogin(user.login)" class="login__user">{{user.login}}</h4>
+      </router-link>
     </div>
 
 </template>
 
 <script>
+import {mapActions, mapMutations, mapState} from "vuex";
+
 export default {
-  props: {
-    users: {
-      type: Array,
-      required: true
-    }
+  computed: {
+    ...mapState({
+      users: state => state.users,
+      login: state => state.login
+    }),
+  },
+  methods: {
+    ...mapMutations({
+      setUserLogin: 'setUserLogin'
+    })
+    },
+  ...mapActions({
+    getUserByLogin: "getUserByLogin"
+  }),
+  mounted() {
+    this.getUserByLogin()
   }
 }
 </script>

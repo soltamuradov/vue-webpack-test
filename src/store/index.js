@@ -5,8 +5,10 @@ export default createStore({
     state: ()=> {
         return {
             users: [],
+            user: {},
             login: "",
             selectedSort: "",
+            userLogin: "",
             pageL: 1,
             limit: 9,
             totalPages: 0,
@@ -16,16 +18,12 @@ export default createStore({
             ]
         }
     },
-    // getters: {
-    //     selectedSort(state) {
-    //         state.users.sort((user1, user2) => {
-    //             return user1[state.selectedSort]?.localeCompare(user2[state.selectedSort])
-    //         })
-    //     }
-    // },
     mutations: {
         setUsers(state, users) {
             state.users = users
+        },
+        setUser(state, user) {
+            state.user = user
         },
         setPageL(state, pageL) {
             state.pageL = pageL
@@ -39,6 +37,9 @@ export default createStore({
         setTotalPages(state, totalPages) {
             state.totalPages = totalPages
         },
+        setUserLogin(state, login) {
+            state.userLogin = login
+        }
     },
     actions: {
         async fetchUsers({state, commit}) {
@@ -76,5 +77,13 @@ export default createStore({
                 console.log("Ошибка получения данных")
             }
         },
+        async getUserByLogin({state, commit}) {
+            try {
+                const res = await axios.get(`https://api.github.com/users/${state.userLogin}`)
+                commit("setUser", res.data)
+            }catch (e) {
+                console.log("Ошибка:" + e.message)
+            }
+        }
     },
 })

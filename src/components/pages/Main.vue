@@ -1,30 +1,28 @@
 <template>
   <div>
     <h1 class="title">Поиск программистов в GitHub</h1>
-
-    <form @submit.prevent>
-      <my-input class="input"
-                type="text"
-                :model-value="login"
-                @update:model-value="setLogin"
-      />
-      <button
-          class="btn"
-          @click="clickSearchUser"
-      >
-        Найти
-      </button>
-    </form>
-
-    <sort-users
-        v-model="selectedSort"
-        :options="sortOptions"
-    />
-
+    <div>
+        <my-input class="input"
+                  type="text"
+                  :model-value="login"
+                  @update:model-value="setLogin"
+        />
+      <div class="app__btns">
+        <sort-users
+            v-model="selectedSort"
+            :options="sortOptions"
+        />
+        <button
+            class="btn"
+            @click="clickSearchUser"
+        >
+          Найти
+        </button>
+      </div>
+    </div>
     <div class="content__users" >
       <users-list :users="users"/>
     </div>
-
     <div
         ref="observer"
         class="observer"
@@ -104,7 +102,6 @@ export default {
   margin-top: 10px;
   background: none;
   border: 2px solid teal;
-  align-self: flex-end;
   width: 70px;
   height: 30px;
   border-radius: 5px;
@@ -121,6 +118,10 @@ form {
 }
 .observer {
   height: 30px;
+}
+.app__btns{
+  display: flex;
+  justify-content: space-between;
 }
 
 </style>
